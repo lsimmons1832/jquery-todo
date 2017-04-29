@@ -1,2 +1,23 @@
 body {
-  background-color: #C4A287; }
+  background-color: #C4A287;
+  color: #533745; }
+
+.main-container li {
+  overflow: hidden;
+  padding: 20px 0;
+  border-bottom: 1px solid #9D9171; }
+  .main-container li * {
+    float: left; }
+
+.main-container .checkboxStyle {
+  margin-top: 15px !important; }
+
+.main-container .task {
+  font-size: 18px;
+  font-weight: bold;
+  lineheight: 40px;
+  padding: 0 0 0 11px; }
+
+.main-container #completed-tasks .task {
+  text-decoration: line-through;
+  color: #9D9171; }

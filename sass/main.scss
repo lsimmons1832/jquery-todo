@@ -2,4 +2,37 @@
 
 body{
 	background-color: $rose;
+	color: $puce;
 }
+
+.main-container {
+	li{
+	overflow: hidden;
+	padding: 20px 0;
+	border-bottom: 1px solid $militant;
+
+		*{
+			float: left;
+		}
+	}
+
+	.checkboxStyle{
+	margin-top: 15px !important;
+	}
+
+	.task{
+		font-size: 18px;
+		font-weight: bold;
+		lineheight: 40px;
+		padding: 0 0 0 11px;
+	}
+
+	#completed-tasks{
+		.task {
+			text-decoration: line-through;
+			color: $militant;
+		}
+	}
+
+}
+
