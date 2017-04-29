@@ -20,5 +20,14 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		});
 	};
 
+	oldCrap.addTodo = (newTodo) =>{
+		return new Promise ((resolve, reject) => { //this is not required when using Firebase
+			newTodo.id = `item${FbAPI.todoGetter().length}`;
+			console.log("newTodo", newTodo);
+			FbAPI.setSingleTodo(newTodo);
+			resolve();
+		});
+	};
+
 	return oldCrap;
 })(FbAPI || {});

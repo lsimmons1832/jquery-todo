@@ -17,5 +17,32 @@ $(document).ready(() => {
  			console.log("getTodos Error", error);
  });
 
+// add todo
+$('#add-todo-button').click(() =>{
+	let newTodo = {
+		isCompleted: false,
+		task: $('#add-todo-text').val()
+	};
+	console.log('newTodo', newTodo);
+	FbAPI.addTodo(newTodo).then(() =>{
+		$('#add-todo-text').val("");
+		$('.new-container').addClass('hide');
+		$('.list-container').removeClass('hide');	
+		FbAPI.writeDom();
+	}).catch((error) => {
+		console.log("addTodo Error", error);
+	});
+});
+
+
+//delete todo
+
+
+
+//edit todo
+
+
+
+//complete todo
 
 });
