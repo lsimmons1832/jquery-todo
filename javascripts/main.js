@@ -13,6 +13,7 @@ $(document).ready(() => {
 
  FbAPI.getTodos().then(() => {
  		FbAPI.writeDom();
+ 		countTask(); //this function needs to be called everywhere that we call writeDOM
  }).catch((error) => {
  			console.log("getTodos Error", error);
  });
@@ -29,6 +30,7 @@ $('#add-todo-button').click(() =>{
 		$('.new-container').addClass('hide');
 		$('.list-container').removeClass('hide');	
 		FbAPI.writeDom();
+		countTask();
 	}).catch((error) => {
 		console.log("addTodo Error", error);
 	});
@@ -44,5 +46,20 @@ $('#add-todo-button').click(() =>{
 
 
 //complete todo
+$('.main-container').on('click', 'input[type="checkbox"]', (e) =>{
+	console.log("event", e.target.id);
+	FbAPI.checker(e.target.id).then(() => {
+		FbAPI.writeDom();
+		countTask();
+	}).catch((error) =>{
+		console.log("Checker Error", error);
+	});
+});
+
+//add counter
+ let countTask = () =>{
+ 	let remainingTasks = $('#incomplete-tasks li').length;
+ 	$('#counter').hide().fadeIn(300).html(remainingTasks);
+ };
 
 });

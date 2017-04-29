@@ -29,5 +29,12 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		});
 	};
 
+	oldCrap.checker = (id) =>{
+		return new Promise((resolve, reject) =>{
+			FbAPI.setChecked(id);
+			resolve();
+		});
+	};
+
 	return oldCrap;
 })(FbAPI || {});
