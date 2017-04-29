@@ -1,19 +1,19 @@
-$(document).ready(()=>{
+$(document).ready(() => {
 
-	$('#new-item').click(()=>{
+	$('#new-item').click(() => {
 		$('.list-container').addClass('hide');
 		$('.new-container').removeClass('hide');
 	});
 
-	$('#list-items').click(()=>{
+	$('#list-items').click(() => {
 		$('.new-container').addClass('hide');
 		$('.list-container').removeClass('hide');	
 	});
 
 
- FbAPI.getTodos().then((results)=>{
- 		console.log("results", results);
- }).catch((error)=>{
+ FbAPI.getTodos().then(() => {
+ 		FbAPI.writeDom();
+ }).catch((error) => {
  			console.log("getTodos Error", error);
  });
 
