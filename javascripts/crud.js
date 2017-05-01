@@ -36,5 +36,12 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		});
 	};
 
+	oldCrap.deleteTodo = (id) => {
+		return new Promise((resolve, reject) =>{
+			FbAPI.delete(id);
+			resolve();
+		});
+	};
+
 	return oldCrap;
 })(FbAPI || {});

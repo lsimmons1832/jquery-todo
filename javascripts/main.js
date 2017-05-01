@@ -37,8 +37,15 @@ $('#add-todo-button').click(() =>{
 });
 
 
-//delete todo
-
+//delete todo - click event in main
+$('.main-container').on("click", ".delete", (e) => {
+	FbAPI.deleteTodo(e.target.id).then(() => {
+		FbAPI.writeDom();
+		countTask();
+	}).catch((error) => {
+		console.log("error in deleteTodo", error);
+	});
+});
 
 
 //edit todo
