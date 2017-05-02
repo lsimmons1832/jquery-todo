@@ -29,7 +29,7 @@ $('#add-todo-button').click(() =>{
 		task: $('#add-todo-text').val()
 	};
 	console.log('newTodo', newTodo);
-	FbAPI.addTodo(newTodo).then(() =>{
+	FbAPI.addTodo(apiKeys, newTodo).then(() =>{
 		$('#add-todo-text').val("");
 		$('.new-container').addClass('hide');
 		$('.list-container').removeClass('hide');	

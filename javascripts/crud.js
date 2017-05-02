@@ -20,12 +20,17 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		});
 	};
 
-	oldCrap.addTodo = (newTodo) =>{
+	oldCrap.addTodo = (apiKeys, newTodo) =>{
 		return new Promise ((resolve, reject) => { //this is not required when using Firebase
-			newTodo.id = `item${FbAPI.todoGetter().length}`;
-			console.log("newTodo", newTodo);
-			FbAPI.setSingleTodo(newTodo);
-			resolve();
+				$.ajax({
+				method:'POST',
+				url: `${apiKeys.databaseURL}/items.json`,
+				data: JSON.stringify(newTodo)
+			}).done(()=>{
+				resolve();
+			}).fail((error)=>{
+				reject(error);
+			});		
 		});
 	};
 
