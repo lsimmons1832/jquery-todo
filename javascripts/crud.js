@@ -1,18 +1,18 @@
 var FbAPI = ((oldCrap) =>{ //this is an augmenter
 
-	oldCrap.getTodos = ()=>{
+	oldCrap.getTodos = (apiKeys)=>{
 		let items = [];
 		return new Promise((resolve, reject) =>{
-			$.ajax('./database/seed.json')
+			$.ajax(`${apiKeys.databaseURL}/items.json`)
 			.done((data) => { //this is grabbing the key and pushing the value into an array
-				let response = data.items;
+				let response = data;
 				Object.keys(response).forEach((key) =>{
 					console.log("key", key);
 					response[key].id = key;
 					items.push(response[key]);
 				});
-				FbAPI.setTodos(items); //calling main iife & passing in data
-				resolve();
+				//FbAPI.setTodos(items); //calling main iife & passing in data
+				resolve(items);
 			})
 			.fail((error) =>{
 				reject(error);
