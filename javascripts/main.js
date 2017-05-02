@@ -1,4 +1,5 @@
 $(document).ready(() => {
+	let apiKeys;
 
 	$('#new-item').click(() => {
 		$('.list-container').addClass('hide');
@@ -11,12 +12,21 @@ $(document).ready(() => {
 	});
 
 
- FbAPI.getTodos().then(() => {
- 		FbAPI.writeDom();
- 		countTask(); //this function needs to be called everywhere that we call writeDOM
- }).catch((error) => {
- 			console.log("getTodos Error", error);
- });
+FbAPI.firebaseCredentials().then((keys)=>{
+	apiKeys = keys;
+	firebase.initializeApp(apiKeys);
+	FbAPI.writeDom(apiKeys);
+	countTask();
+}).catch((error)=>{
+	console.log("keys error", error);
+});
+
+ // FbAPI.getTodos().then(() => {
+ // 		FbAPI.writeDom();
+ // 		countTask(); //this function needs to be called everywhere that we call writeDOM
+ // }).catch((error) => {
+ // 			console.log("getTodos Error", error);
+ // });
 
 // add todo
 $('#add-todo-button').click(() =>{
