@@ -1,5 +1,6 @@
 $(document).ready(() => {
 	let apiKeys;
+	let editId = "";
 
 	$('#new-item').click(() => {
 		$('.list-container').addClass('hide');
@@ -23,22 +24,33 @@ FbAPI.firebaseCredentials().then((keys)=>{
 
 
 // add todo
-$('#add-todo-button').click(() =>{
-	let newTodo = {
-		isCompleted: false,
-		task: $('#add-todo-text').val()
-	};
-	console.log('newTodo', newTodo);
-	FbAPI.addTodo(apiKeys, newTodo).then(() =>{
-		$('#add-todo-text').val("");
-		$('.new-container').addClass('hide');
-		$('.list-container').removeClass('hide');	
-		FbAPI.writeDom(apiKeys);
-		//countTask();
-	}).catch((error) => {
-		console.log("addTodo Error", error);
-	});
-});
+  $('#add-todo-button').click(() => {
+      let newTodo = {
+          isCompleted: false,
+          task: $('#add-todo-text').val()
+      };
+    if(editId.length > 0){
+      //edit
+      FbAPI.editTodo(apiKeys, newTodo, editId).then(() => {
+        $('#add-todo-text').val("");
+        editId = "";
+        $('.new-container').addClass('hide');
+        $('.list-container').removeClass('hide');
+        FbAPI.writeDom(apiKeys);
+      }).catch((error) => {
+        console.log("editTodo error", error);
+      });
+    } else{
+      FbAPI.addTodo(apiKeys, newTodo).then(() => {
+        $('#add-todo-text').val("");
+        $('.new-container').addClass('hide');
+        $('.list-container').removeClass('hide');
+        FbAPI.writeDom(apiKeys);
+      }).catch((error) => {
+        console.log("addTodo error", error);
+      });      
+    }
+  });
 
 
 //delete todo - click event in main
@@ -54,20 +66,20 @@ $('.main-container').on("click", ".delete", (e) => {
 
 //edit todo
 $('.main-container').on("click", ".edit", (e) => {
-	let editText = $(apiKeys, e.target).closest('.col-xs-4').siblings('.col-xs-8').find('.task').html();
-	FbAPI.editTodo(e.target.id).then(()=>{
+	let editText = $(e.target).closest('.col-xs-4').siblings('.col-xs-8').find('.task').html();
+	editId = e.target.id;
 		$('.list-container').addClass('hide');
 		$('.new-container').removeClass('hide');
 		$('#add-todo-text').val(editText);
-	}).catch((error)=>{
-		console.log("editTodo error",error);
-	});
 });
 
 //complete todo
 $('.main-container').on('click', 'input[type="checkbox"]', (e) =>{
-	console.log("event", e.target.id);
-	FbAPI.checker(apiKeys, e.target.id).then(() => {
+	let myTodo = {
+		isCompleted: e.target.checked,
+		task: $(e.target).siblings('.task').html()
+	};
+	FbAPI.editTodo(apiKeys, myTodo, e.target.id).then(() => {
 		FbAPI.writeDom(apiKeys);
 		//countTask();
 	}).catch((error) =>{
