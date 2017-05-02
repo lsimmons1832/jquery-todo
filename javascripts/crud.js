@@ -20,33 +20,46 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		});
 	};
 
-	oldCrap.addTodo = (newTodo) =>{
+	oldCrap.addTodo = (apiKeys, newTodo) =>{
 		return new Promise ((resolve, reject) => { //this is not required when using Firebase
-			newTodo.id = `item${FbAPI.todoGetter().length}`;
-			console.log("newTodo", newTodo);
-			FbAPI.setSingleTodo(newTodo);
-			resolve();
+				$.ajax({
+				method:'POST',
+				url: `${apiKeys.databaseURL}/items.json`,
+				data: JSON.stringify(newTodo)
+			}).done(()=>{
+				resolve();
+			}).fail((error)=>{
+				reject(error);
+			});		
 		});
 	};
 
-	oldCrap.checker = (id) =>{
+
+
+	oldCrap.deleteTodo = (apiKeys, id) => {
 		return new Promise((resolve, reject) =>{
-			FbAPI.setChecked(id);
-			resolve();
+			$.ajax({
+				method:'DELETE',
+				url: `${apiKeys.databaseURL}/items/${id}.json`
+			}).done(()=>{
+				resolve();
+			}).fail((error)=>{
+				console.log(error);
+			});
 		});
 	};
 
-	oldCrap.deleteTodo = (id) => {
-		return new Promise((resolve, reject) =>{
-			FbAPI.delete(id);
-			resolve();
-		});
-	};
-
-	oldCrap.editTodo = (id) => {
+	oldCrap.editTodo = (apiKeys, editTodo, id) => {
 		return new Promise((resolve, reject) => {
-			FbAPI.delete(id);
-			resolve();
+				$.ajax({
+				method:'PUT',
+				url: `${apiKeys.databaseURL}/items/${id}.json`,
+				data: JSON.stringify(editTodo)
+			}).done(()=>{
+				resolve();
+			}).fail((error)=>{
+				reject(error);
+			});		
 		});
 	};
 

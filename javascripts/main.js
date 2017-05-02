@@ -1,5 +1,6 @@
 $(document).ready(() => {
 	let apiKeys;
+	let editId = "";
 
 	$('#new-item').click(() => {
 		$('.list-container').addClass('hide');
@@ -16,42 +17,47 @@ FbAPI.firebaseCredentials().then((keys)=>{
 	apiKeys = keys;
 	firebase.initializeApp(apiKeys);
 	FbAPI.writeDom(apiKeys);
-	countTask();
+	//countTask();
 }).catch((error)=>{
 	console.log("keys error", error);
 });
 
- // FbAPI.getTodos().then(() => {
- // 		FbAPI.writeDom();
- // 		countTask(); //this function needs to be called everywhere that we call writeDOM
- // }).catch((error) => {
- // 			console.log("getTodos Error", error);
- // });
 
 // add todo
-$('#add-todo-button').click(() =>{
-	let newTodo = {
-		isCompleted: false,
-		task: $('#add-todo-text').val()
-	};
-	console.log('newTodo', newTodo);
-	FbAPI.addTodo(newTodo).then(() =>{
-		$('#add-todo-text').val("");
-		$('.new-container').addClass('hide');
-		$('.list-container').removeClass('hide');	
-		FbAPI.writeDom();
-		countTask();
-	}).catch((error) => {
-		console.log("addTodo Error", error);
-	});
-});
+  $('#add-todo-button').click(() => {
+      let newTodo = {
+          isCompleted: false,
+          task: $('#add-todo-text').val()
+      };
+    if(editId.length > 0){
+      //edit
+      FbAPI.editTodo(apiKeys, newTodo, editId).then(() => {
+        $('#add-todo-text').val("");
+        editId = "";
+        $('.new-container').addClass('hide');
+        $('.list-container').removeClass('hide');
+        FbAPI.writeDom(apiKeys);
+      }).catch((error) => {
+        console.log("editTodo error", error);
+      });
+    } else{
+      FbAPI.addTodo(apiKeys, newTodo).then(() => {
+        $('#add-todo-text').val("");
+        $('.new-container').addClass('hide');
+        $('.list-container').removeClass('hide');
+        FbAPI.writeDom(apiKeys);
+      }).catch((error) => {
+        console.log("addTodo error", error);
+      });      
+    }
+  });
 
 
 //delete todo - click event in main
 $('.main-container').on("click", ".delete", (e) => {
-	FbAPI.deleteTodo(e.target.id).then(() => {
-		FbAPI.writeDom();
-		countTask();
+	FbAPI.deleteTodo(apiKeys, e.target.id).then(() => {
+		FbAPI.writeDom(apiKeys);
+		//countTask();
 	}).catch((error) => {
 		console.log("error in deleteTodo", error);
 	});
@@ -61,30 +67,25 @@ $('.main-container').on("click", ".delete", (e) => {
 //edit todo
 $('.main-container').on("click", ".edit", (e) => {
 	let editText = $(e.target).closest('.col-xs-4').siblings('.col-xs-8').find('.task').html();
-	FbAPI.editTodo(e.target.id).then(()=>{
+	editId = e.target.id;
 		$('.list-container').addClass('hide');
 		$('.new-container').removeClass('hide');
 		$('#add-todo-text').val(editText);
-	}).catch((error)=>{
-		console.log("editTodo error",error);
-	});
 });
 
 //complete todo
 $('.main-container').on('click', 'input[type="checkbox"]', (e) =>{
-	console.log("event", e.target.id);
-	FbAPI.checker(e.target.id).then(() => {
-		FbAPI.writeDom();
-		countTask();
+	let myTodo = {
+		isCompleted: e.target.checked,
+		task: $(e.target).siblings('.task').html()
+	};
+	FbAPI.editTodo(apiKeys, myTodo, e.target.id).then(() => {
+		FbAPI.writeDom(apiKeys);
+		//countTask();
 	}).catch((error) =>{
 		console.log("Checker Error", error);
 	});
 });
 
-//add counter
- let countTask = () =>{
- 	let remainingTasks = $('#incomplete-tasks li').length;
- 	$('#counter').hide().fadeIn(300).html(remainingTasks);
- };
 
 });
