@@ -49,8 +49,16 @@ $('.main-container').on("click", ".delete", (e) => {
 
 
 //edit todo
-
-
+$('.main-container').on("click", ".edit", (e) => {
+	let editText = $(e.target).closest('.col-xs-4').siblings('.col-xs-8').find('.task').html();;
+	FbAPI.editTodo(e.target.id).then(()=>{
+		$('.list-container').addClass('hide');
+		$('.new-container').removeClass('hide');
+		$('#add-todo-text').val(editText);
+	}).catch((error)=>{
+		console.log("editTodo error",error);
+	});
+});
 
 //complete todo
 $('.main-container').on('click', 'input[type="checkbox"]', (e) =>{
