@@ -29,21 +29,27 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		});
 	};
 
-	oldCrap.checker = (id) =>{
+	oldCrap.checker = (apiKeys, id) =>{
 		return new Promise((resolve, reject) =>{
 			FbAPI.setChecked(id);
 			resolve();
 		});
 	};
 
-	oldCrap.deleteTodo = (id) => {
+	oldCrap.deleteTodo = (apiKeys, id) => {
 		return new Promise((resolve, reject) =>{
-			FbAPI.delete(id);
-			resolve();
+			$.ajax({
+				method:'DELETE',
+				url: `${apiKeys.databaseURL}/items/${id}.json`
+			}).done(()=>{
+				resolve();
+			}).fail((error)=>{
+				console.log(error);
+			});
 		});
 	};
 
-	oldCrap.editTodo = (id) => {
+	oldCrap.editTodo = (apiKeys, id) => {
 		return new Promise((resolve, reject) => {
 			FbAPI.delete(id);
 			resolve();

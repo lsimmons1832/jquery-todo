@@ -39,7 +39,7 @@ $('#add-todo-button').click(() =>{
 		$('#add-todo-text').val("");
 		$('.new-container').addClass('hide');
 		$('.list-container').removeClass('hide');	
-		FbAPI.writeDom();
+		FbAPI.writeDom(apiKeys);
 		countTask();
 	}).catch((error) => {
 		console.log("addTodo Error", error);
@@ -49,8 +49,8 @@ $('#add-todo-button').click(() =>{
 
 //delete todo - click event in main
 $('.main-container').on("click", ".delete", (e) => {
-	FbAPI.deleteTodo(e.target.id).then(() => {
-		FbAPI.writeDom();
+	FbAPI.deleteTodo(apiKeys, e.target.id).then(() => {
+		FbAPI.writeDom(apiKeys);
 		countTask();
 	}).catch((error) => {
 		console.log("error in deleteTodo", error);
@@ -60,7 +60,7 @@ $('.main-container').on("click", ".delete", (e) => {
 
 //edit todo
 $('.main-container').on("click", ".edit", (e) => {
-	let editText = $(e.target).closest('.col-xs-4').siblings('.col-xs-8').find('.task').html();
+	let editText = $(apiKeys, e.target).closest('.col-xs-4').siblings('.col-xs-8').find('.task').html();
 	FbAPI.editTodo(e.target.id).then(()=>{
 		$('.list-container').addClass('hide');
 		$('.new-container').removeClass('hide');
@@ -73,8 +73,8 @@ $('.main-container').on("click", ".edit", (e) => {
 //complete todo
 $('.main-container').on('click', 'input[type="checkbox"]', (e) =>{
 	console.log("event", e.target.id);
-	FbAPI.checker(e.target.id).then(() => {
-		FbAPI.writeDom();
+	FbAPI.checker(apiKeys, e.target.id).then(() => {
+		FbAPI.writeDom(apiKeys);
 		countTask();
 	}).catch((error) =>{
 		console.log("Checker Error", error);
