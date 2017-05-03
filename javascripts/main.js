@@ -87,5 +87,43 @@ $('.main-container').on('click', 'input[type="checkbox"]', (e) =>{
 	});
 });
 
+$('#registerButton').click(()=>{
+	let email = $('#inputEmail').val();
+	let password = $('#inputPassword').val();
+	let username = $('#inputUsername').val();
+
+	let user = {
+		"email": email,
+		"password": password
+	};
+
+	//or you could use let user = {email, password};
+	FbAPI.registerUser(user).then((response)=>{
+		console.log("register response", response);
+		
+		let newUser ={
+			uid: response.uid,
+			username: username
+		};
+
+		FbAPI.addUser(apiKeys, newUser).then((response)=>{
+			console.log("addUser", response);
+		}).catch((error)=>{
+			console.log("error in addUser", error);
+		});
+	}).catch((error)=>{
+		console.log("regUser error", error);
+	});
+
+});
+
+
+
+
+
+
+
+
+
 
 });

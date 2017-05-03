@@ -13,8 +13,7 @@ var FbAPI = ((otherOldCrap) =>{
 		let todos = results;
 		let doneString = "";
 		let notDoneString = "";
-		console.log("todos in writeDom", todos);
-
+	
 todos.forEach((todo) => {
       if (todo.isCompleted) {
         doneString += `<li>`;
