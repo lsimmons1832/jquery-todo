@@ -12,5 +12,15 @@
       "isCompleted" : false,
       "task" : "take a nap"
     }
+  },
+  "users":{
+    "user0":{
+      "uid": "R8YKBhd3wCe2iH05UaCg9dwXTKx1",
+      "username": "PamPickles"
+    },
+    "user1":{
+      "uid": "jPzSC8ikcLgqoFsD38yP6LlsHJK2",
+      "username": "CP23"
+    }
   }
 }
