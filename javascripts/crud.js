@@ -4,11 +4,10 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 		let items = [];
 		return new Promise((resolve, reject) =>{
 			let uid = FbAPI.credentialsCurrentUser().uid;
-			$.ajax(`${apiKeys.databaseURL}/items.json?orderBy="uid"&equalTo="${uid}"`)
+			$.ajax(`${apiKeys.databaseURL}/items.json?orderBy="uid"&equalTo"${uid}"`)
 			.done((data) => { //this is grabbing the key and pushing the value into an array
 				let response = data;
 				Object.keys(response).forEach((key) =>{
-					console.log("key", key);
 					response[key].id = key;
 					items.push(response[key]);
 				});
@@ -22,6 +21,7 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 	};
 
 	oldCrap.addTodo = (apiKeys, newTodo) =>{
+		newTodo.uid = FbAPI.credentialsCurrentUser().uid;
 		return new Promise ((resolve, reject) => { //this is not required when using Firebase
 				$.ajax({
 				method:'POST',
@@ -51,6 +51,7 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 	};
 
 	oldCrap.editTodo = (apiKeys, editTodo, id) => {
+		editTodo.uid = FbAPI.credentialsCurrentUser().uid;
 		return new Promise((resolve, reject) => {
 				$.ajax({
 				method:'PUT',
