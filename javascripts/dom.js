@@ -47,5 +47,13 @@ todos.forEach((todo) => {
     });
 };
 
+    otherOldCrap.createLogoutButton = (apiKeys) => {
+    let uid = FbAPI.credentialsCurrentUser().uid;
+    FbAPI.getUser(apiKeys, uid).then((user) => {
+    let logoutButton = `<button class="btn btn-danger" id="logoutButton">LOGOUT</button>${user.username}`
+    $('#logout-container').html(logoutButton);
+    });
+};
+
 	return otherOldCrap;
 })(FbAPI || {});

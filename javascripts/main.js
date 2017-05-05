@@ -140,10 +140,18 @@ $('#loginButton').click(()=>{
 		clearLogin();
 		$('#login-container').addClass('hide');
 		$('.main-container').removeClass('hide');
+		FbAPI.createLogoutButton(apiKeys);
 		FbAPI.writeDom(apiKeys);
 	}).catch((error)=>{
 		console.log('error in loginUser', error);
 	});
+});
+
+$('#logout-container').on('click', '#logoutButton', () =>{
+	clearLogin();
+	FbAPI.logoutUser();
+		$('#login-container').removeClass('hide');
+		$('.main-container').addClass('hide');
 });
 
 

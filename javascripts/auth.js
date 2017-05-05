@@ -22,6 +22,13 @@ var FbAPI = ((user)=>{
 		});
 	};
 
+user.credentialsCurrentUser = () =>{
+	return firebase.auth().currentUser;
+};
+
+user.logoutUser = () => {
+	firebase.auth().signOut();
+};
 
 	return user;
 })(FbAPI || {});
