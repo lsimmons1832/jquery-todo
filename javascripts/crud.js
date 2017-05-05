@@ -3,7 +3,8 @@ var FbAPI = ((oldCrap) =>{ //this is an augmenter
 	oldCrap.getTodos = (apiKeys)=>{
 		let items = [];
 		return new Promise((resolve, reject) =>{
-			$.ajax(`${apiKeys.databaseURL}/items.json`)
+			let uid = FbAPI.credentialsCurrentUser().uid;
+			$.ajax(`${apiKeys.databaseURL}/items.json?orderBy="uid"&equalTo="${uid}"`)
 			.done((data) => { //this is grabbing the key and pushing the value into an array
 				let response = data;
 				Object.keys(response).forEach((key) =>{

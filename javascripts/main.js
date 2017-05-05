@@ -16,7 +16,7 @@ $(document).ready(() => {
 FbAPI.firebaseCredentials().then((keys)=>{
 	apiKeys = keys;
 	firebase.initializeApp(apiKeys);
-	FbAPI.writeDom(apiKeys);
+	//FbAPI.writeDom(apiKeys);
 	//countTask();
 }).catch((error)=>{
 	console.log("keys error", error);
